@@ -8,7 +8,6 @@
 <body>
 <div style="margin: 15px">
     <form class="layui-form" lay-filter="AddBusinessRecordForm">
-        <input name="cusId" type="hidden">
         <div class="layui-inline"> <label class="layui-form-label">日期</label>
             <div class="layui-input-inline">
                 <input type="text" name="recDate" class="layui-input" id="test5" placeholder="yyyy-MM-dd">
@@ -29,6 +28,7 @@
                 <input type="text" name="recDetail" autocomplete="off" placeholder="请输入客户交往详细信息" class="layui-input">
             </div>
         </div>
+        <input name="cusId" type="hidden">
         <div class="layui-form-item"><label class="layui-form-label">销售员姓名</label>
             <div class="layui-input-block">
                 <input type="text" name="salesmanName" autocomplete="off" placeholder="请输入销售员姓名" class="layui-input">
@@ -44,9 +44,19 @@
 </div>
 <script src="../../layui/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form', 'jquery'], function () {
+    layui.use(['form','laydate', 'jquery'], function () {
         let form = layui.form;
         let $ = layui.jquery;
+
+        let layDate = layui.laydate;
+
+        //日期时间选择器
+        layDate.render({
+            elem: '#test5'
+            ,type: 'date'
+            ,value: new Date()
+            ,isInitValue: true //是否允许填充初始值，默认为 true
+        });
         //监听提交
         form.on('submit(submitBusinessRecordAdd)', function (data) {
             data.field.cusId = parent.param.split("=")[1];

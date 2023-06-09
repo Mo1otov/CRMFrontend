@@ -7,8 +7,8 @@
 </head>
 <body>
 <div style="margin: 15px">
-    <form class="layui-form" lay-filter="updateContactForm">
-        <input name="cusId" type="hidden">
+    <form class="layui-form" lay-filter="updateBusinessRecordForm">
+        <input name="recId" type="hidden">
         <div class="layui-inline"> <label class="layui-form-label">日期</label>
             <div class="layui-input-inline">
                 <input type="text" name="recDate" class="layui-input" id="test5" placeholder="yyyy-MM-dd">
@@ -36,7 +36,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitContactUpdate">立即提交
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitBusinessRecordUpdate">立即提交
                 </button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
@@ -45,18 +45,28 @@
 </div>
 <script src="../../layui/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form', 'jquery'], function () {
+    layui.use(['form','laydate', 'jquery'], function () {
         let form = layui.form;
         let $ = layui.jquery;
+
+        let layDate = layui.laydate;
+
+        //日期时间选择器
+        layDate.render({
+            elem: '#test5'
+            ,type: 'date'
+            ,value: new Date()
+            ,isInitValue: true //是否允许填充初始值，默认为 true
+        });
         //给表单填充内容
         //parent是父页面
-        form.val('updateContactForm', parent.row);
+        form.val('updateBusinessRecordForm', parent.row);
         //监听提交
-        form.on('submit(submitContactUpdate)', function (data) {
+        form.on('submit(submitBusinessRecordUpdate)', function (data) {
             //异步(ajax)提交代码
             $.ajax({
                 type: "post"
-                , url: "http://localhost:8080/contact/updateContact"
+                , url: "http://localhost:8080/businessRecord/updateBusinessRecord"
                 , dataType: "json"
                 , data: data.field
                 , success: function (obj) {//后台方法成功执行并返回结果时，会调用这个方法，参数就是后台返回的内容
