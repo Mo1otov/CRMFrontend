@@ -39,7 +39,12 @@
                 <input type="text" name="serCreator" autocomplete="off" placeholder="请输入创建人" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item"><label class="layui-form-label">服务状态</label>
+        <div class="layui-inline" type="hidden"> <label class="layui-form-label">创建时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="serCreateTime" class="layui-input" id="test8" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <div class="layui-form-item"style="margin: 15px"><label class="layui-form-label">服务状态</label>
             <div class="layui-input-block">
                 <select name="serState">
                     <option value=""></option>
@@ -50,7 +55,49 @@
                 </select>
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-inline"> <label class="layui-form-label">分配时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="serAllocTime" class="layui-input" id="test5" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <div class="layui-form-item"style="margin: 15px"><label class="layui-form-label">处理人</label>
+            <div class="layui-input-block">
+                <input type="text" name="serHandler" autocomplete="off" placeholder="请输入处理人" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">处理方法</label>
+            <div class="layui-input-block">
+                <input type="text" name="serProcessMethod" autocomplete="off" placeholder="请输入处理人" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline"> <label class="layui-form-label">处理时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="serProcessTime" class="layui-input" id="test6" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <div class="layui-form-item"style="margin: 15px"><label class="layui-form-label">客户反馈</label>
+            <div class="layui-input-block">
+                <input type="text" name="serCusFeedback" autocomplete="off" placeholder="请输入客户反馈" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">客户满意度</label>
+            <div class="layui-input-block">
+                <select name="serCusRate">
+                    <option value=""></option>
+                    <option value=1>一星</option>
+                    <option value=2>二星</option>
+                    <option value=3>三星</option>
+                    <option value=4>四星</option>
+                    <option value=5>五星</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline"> <label class="layui-form-label">反馈时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="serFeedbackTime" class="layui-input" id="test7" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <div class="layui-form-item"style="margin: 15px">
             <div class="layui-input-block">
                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitServiceUpdate">立即提交
                 </button>
@@ -61,9 +108,19 @@
 </div>
 <script src="../../layui/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form', 'jquery'], function () {
+    layui.use(['form','laydate','jquery'], function () {
         let form = layui.form;
         let $ = layui.jquery;
+
+        let layDate = layui.laydate;
+
+        //日期时间选择器
+        layDate.render({
+            elem: '#test5,#test6,#test7,#test8'
+            ,type: 'datetime'
+            ,value: new Date()
+            ,isInitValue: true //是否允许填充初始值，默认为 true
+        });
         //给表单填充内容
         //parent是父页面
         form.val('updateServiceForm', parent.row);

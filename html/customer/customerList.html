@@ -14,6 +14,7 @@
         <button class="layui-btn layui-btn-sm" lay-event="edit">修改</button>
         <button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
         <button class="layui-btn layui-btn-sm" lay-event="contact">查看联系人</button>
+        <button class="layui-btn layui-btn-sm" lay-event="businessRecord">查看交往记录</button>
         <button class="layui-btn layui-btn-sm" lay-event="delete" style="background-color: red">删除</button>
     </div>
 </script>
@@ -184,10 +185,20 @@
                     } else if (data.length > 1) {
                         layer.msg("一次只能查看一个客户的联系人");
                     } else {
-                        var cusId = data[0].cusId;
                         window.location.href = "../contact/contactList.html?cusId=" + data[0].cusId;
                     }
                     break;
+                case 'businessRecord':
+                    //选中行的数据的数组
+                    if (data.length === 0) {
+                        layer.msg("请选择要查看的客户的交往记录");
+                    } else if (data.length > 1) {
+                        layer.msg("一次只能查看一个客户的交往记录");
+                    } else {
+                        window.location.href = "../businessRecord/businessRecordList.html?cusId=" + data[0].cusId;
+                    }
+                    break;
+
             }
         });
     });

@@ -42,6 +42,34 @@
                 , {field: 'serCreator', title: '创建人', align: 'center'}
                 , {field: 'serCreateTime', title: '创建时间', minWidth: 100, align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'serState', title: '状态', sort: true, align: 'center'}
+                , {field: 'serAllocTime', title: '分配时间', sort: true, align: 'center'}
+                , {field: 'serHandler', title: '处理人', sort: true, align: 'center'}
+                , {field: 'serProcessMethod', title: '处理方法', sort: true, align: 'center'}
+                , {field: 'serProcessTime', title: '处理时间', sort: true, align: 'center'}
+                , {field: 'serCusFeedback', title: '客户反馈', sort: true, align: 'center'}
+                , {field: 'serCusRate', title: '客户满意度', sort: true, align: 'center',templet: function (d) {
+                        let ret = "";
+                        switch (d.serCusRate) {
+                            case 1:
+                                ret = "一星"
+                                break;
+                            case 2:
+                                ret = "二星"
+                                break;
+                            case 3:
+                                ret = "三星"
+                                break;
+                            case 4:
+                                ret = "四星"
+                                break;
+                            case 5:
+                                ret = "五星"
+                                break;
+                        }
+                        return ret;
+                    }
+                }
+                , {field: 'serFeedbackTime', title: '反馈时间', sort: true, align: 'center'}
             ]]
         });
         //头工具栏事件
