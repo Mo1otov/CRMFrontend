@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务信息修改</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+</head>
+<body>
+<div style="margin: 15px">
+    <form class="layui-form" lay-filter="updateServiceForm">
+        <input name="serId" type="hidden">
+        <div class="layui-form-item"><label class="layui-form-label">服务类型</label>
+            <div class="layui-input-block">
+                <select name="serType">
+                    <option value=""></option>
+                    <option value="咨询">咨询</option>
+                    <option value="投诉">投诉</option>
+                    <option value="建议">建议</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">服务概要</label>
+            <div class="layui-input-block">
+                <input type="text" name="serSummary" autocomplete="off" placeholder="请输入服务概要" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">详细要求</label>
+            <div class="layui-input-block">
+                <input type="text" name="serDetail" autocomplete="off" placeholder="请输入服务详细要求" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">客户编号</label>
+            <div class="layui-input-block">
+                <input type="text" name="cusId" autocomplete="off" placeholder="请输入客户编号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">创建人</label>
+            <div class="layui-input-block">
+                <input type="text" name="serCreator" autocomplete="off" placeholder="请输入创建人" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">服务状态</label>
+            <div class="layui-input-block">
+                <select name="serState">
+                    <option value=""></option>
+                    <option value="新创建">新创建</option>
+                    <option value="已分配">已分配</option>
+                    <option value="已处理">已处理</option>
+                    <option value="已归档">已归档</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitServiceUpdate">立即提交
+                </button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="../../layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        //给表单填充内容
+        //parent是父页面
+        form.val('updateServiceForm', parent.row);
+        //监听提交
+        form.on('submit(submitServiceUpdate)', function (data) {
+            //异步(ajax)提交代码
+            $.ajax({
+                type: "post"
+                , url: "http://localhost:8080/services/updateService"
+                , dataType: "json"
+                , data: data.field
+                , success: function (obj) {//后台方法成功执行并返回结果时，会调用这个方法，参数就是后台返回的内容
+                    //刷新表格
+                    parent.table.reload('test');
+                    //关闭窗口
+                    let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                }
+            })
+            return false;//避免页面因form的提交而刷新
+        });
+
+    })
+</script>
+</body>
+</html>
