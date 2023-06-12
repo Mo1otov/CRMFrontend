@@ -106,7 +106,8 @@
         </div>
         <div class="layui-form-item"><label class="layui-form-label">销售员</label>
             <div class="layui-input-block">
-                <input type="text" name="cusSalesman" autocomplete="off" placeholder="请输入客户销售员" class="layui-input">
+                <input type="text" name="cusSalesman" autocomplete="off" placeholder="请输入客户销售员"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-form-item"><label class="layui-form-label">状态</label>
@@ -144,6 +145,9 @@
                 type: "post"
                 , url: "http://localhost:8080/customer/updateCustomer"
                 , dataType: "json"
+                , headers: {
+                    token: localStorage.getItem("token")
+                }
                 , data: data.field
                 , success: function (obj) {//后台方法成功执行并返回结果时，会调用这个方法，参数就是后台返回的内容
                     //刷新表格

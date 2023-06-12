@@ -30,12 +30,14 @@
         </div>
         <div class="layui-form-item"><label class="layui-form-label">办公电话</label>
             <div class="layui-input-block">
-                <input type="text" name="conTel" autocomplete="off" placeholder="请输入联系人办公电话" class="layui-input">
+                <input type="text" name="conTel" autocomplete="off" placeholder="请输入联系人办公电话"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-form-item"><label class="layui-form-label">手机电话</label>
             <div class="layui-input-block">
-                <input type="text" name="conPhone" autocomplete="off" placeholder="请输入联系人手机电话" class="layui-input">
+                <input type="text" name="conPhone" autocomplete="off" placeholder="请输入联系人手机电话"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-form-item"><label class="layui-form-label">备注</label>
@@ -73,6 +75,9 @@
                 , url: "http://localhost:8080/contact/updateContact"
                 , dataType: "json"
                 , data: data.field
+                , headers: {
+                    token: localStorage.getItem("token")
+                }
                 , success: function (obj) {//后台方法成功执行并返回结果时，会调用这个方法，参数就是后台返回的内容
                     //刷新表格
                     parent.table.reload('test');

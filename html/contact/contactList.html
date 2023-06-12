@@ -30,7 +30,7 @@
         var url = window.location.href; //得到一个http链接
         var arr = url.split("?");
         param = "";
-        if(arr.length > 1){
+        if (arr.length > 1) {
             param = "?" + arr[1];
         }
 
@@ -42,6 +42,9 @@
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports'] //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
             , title: '联系人信息表'
+            , headers: {
+                token: localStorage.getItem("token")
+            }
             , cols: [[
                 {type: 'checkbox'}
                 , {field: 'conId', title: '联系人编号', align: 'center', sort: true}
@@ -51,7 +54,15 @@
                 , {field: 'conTel', title: '办公电话', minWidth: 100, align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {field: 'conPhone', title: '手机号码', sort: true, align: 'center'}
                 , {field: 'conDesc', title: '备注', sort: true, align: 'center'}
-                , {field: 'cusId', title: '客户编号', align: 'center'}
+                , {
+                    field: 'customer', title: '客户名称', width: 100, templet: function (d) {
+                        if (d.customer!= null) {
+                            return d.customer.cusName
+                        }else {
+                            return ""
+                        }
+                    }
+                }
             ]]
         });
         //头工具栏事件
@@ -124,6 +135,9 @@
                                 type: "post"
                                 , url: "http://localhost:8080/contact/deleteContact"
                                 , dataType: "json"
+                                , headers: {
+                                    token: localStorage.getItem("token")
+                                }
                                 , data: {
                                     ids: arr.join(",")//用数组的join方法把数组元素用逗号(',')拼接成字符串结果如:"1,2,3"
                                 }

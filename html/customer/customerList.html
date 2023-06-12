@@ -36,6 +36,9 @@
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports'] //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
             , title: '用户数据表'
+            , headers: {
+                token: localStorage.getItem("token")
+            }
             , cols: [[
                 {type: 'checkbox'}
                 , {field: 'cusId', title: '编号', align: 'center', sort: true}
@@ -44,7 +47,7 @@
                 , {field: 'cusIndustry', title: '行业', align: 'center'}
                 , {field: 'cusLevel', title: '等级', minWidth: 100, align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 , {
-                    field: 'cusRate', title: '满意度', sort: true, align: 'center',templet: function (d) {
+                    field: 'cusRate', title: '满意度', sort: true, align: 'center', templet: function (d) {
                         let ret = "";
                         switch (d.cusRate) {
                             case 1:
@@ -66,7 +69,8 @@
                         return ret;
                     }
                 }
-                , {field: 'cusCredit', title: '信用', sort: true, align: 'center', templet: function (d){
+                , {
+                    field: 'cusCredit', title: '信用', sort: true, align: 'center', templet: function (d) {
                         let ret = "";
                         switch (d.cusCredit) {
                             case 1:
@@ -86,14 +90,15 @@
                                 break;
                         }
                         return ret;
-                    }}
+                    }
+                }
                 , {field: 'cusAddr', title: '地址', align: 'center'}
                 , {field: 'cusPostcode', title: '邮编', sort: true, align: 'center'}
                 , {field: 'cusPhone', title: '电话', sort: true, align: 'center'}
                 , {field: 'cusUrl', title: '网址', sort: true, align: 'center'}
                 , {field: 'cusFax', title: '传真', sort: true, align: 'center'}
-                ,{field: 'cusSalesman', title: '销售员', align: 'center'}
-                ,{field: 'cusState', title: '状态', align: 'center'}
+                , {field: 'cusSalesman', title: '销售员', align: 'center'}
+                , {field: 'cusState', title: '状态', align: 'center'}
             ]]
         });
         //头工具栏事件
@@ -164,6 +169,9 @@
                             }
                             $.ajax({
                                 type: "post"
+                                , headers: {
+                                    token: localStorage.getItem("token")
+                                }
                                 , url: "http://localhost:8080/customer/deleteCustomer"
                                 , dataType: "json"
                                 , data: {

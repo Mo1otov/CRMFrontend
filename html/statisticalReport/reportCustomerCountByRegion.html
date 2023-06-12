@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>按地区统计报表</title>
+  <link rel="stylesheet" href="../../js/echarts.js">
+</head>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script src="../../layui/layui.js"></script>
+<script src="../../js/echarts.js"></script>
+<script>
+  layui.use(['jquery'],function (){
+    var $ = layui.jquery;
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+      title: {
+        text: '按地区统计用户数量'//统计图的标题, 默认显示在图的左上角
+      },
+      tooltip: {},
+      legend: {
+        data: ['人数']  //图例
+      },
+      xAxis: {
+        data: []  //横坐标上的类别
+      },
+      yAxis: {}, //纵坐标上的刻度
+      series: [
+        {
+          name: '人数',
+          type: 'line', //统计图类型：bar-柱状图；line-折线图；pie-饼图
+          data: [] //每根柱子的数值
+        }
+      ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+      $.ajax({
+          type: "get"
+          , url: "http://localhost:8080/statisticalReport/getCustomerCountByRegion"
+          , dataType: "json"
+          , headers: {
+              token: localStorage.getItem("token")
+          }
+          , success: function (obj) {//后台方法成功执行并返回结果时，会调用这个方法，参数就是后台返回的内容
+           myChart.setOption({
+               xAxis: {
+                   data: obj.items  //横坐标上的类别
+               },
+               series: [
+                   {
+                       name: '人数',
+                       type: 'bar', //统计图类型：bar-柱状图；line-折线图；pie-饼图
+                       data: obj.values //每根柱子的数值
+                   }
+               ]
+           })
+          }
+      })
+
+  })
+</script>
+</body>
+</html>

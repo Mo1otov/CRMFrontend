@@ -30,7 +30,7 @@
         var url = window.location.href; //得到一个http链接
         var arr = url.split("?");
         param = "";
-        if(arr.length > 1){
+        if (arr.length > 1) {
             param = "?" + arr[1];
         }
 
@@ -39,6 +39,9 @@
             , url: 'http://localhost:8080/businessRecord/getBusinessRecordList' + param //带上客户编号的参数
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page: true//开启分页
+            , headers: {
+                token: localStorage.getItem("token")
+            }
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports'] //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
             , title: '联系人信息表'
@@ -123,6 +126,9 @@
                                 type: "post"
                                 , url: "http://localhost:8080/businessRecord/deleteBusinessRecord"
                                 , dataType: "json"
+                                , headers: {
+                                    token: localStorage.getItem("token")
+                                }
                                 , data: {
                                     ids: arr.join(",")//用数组的join方法把数组元素用逗号(',')拼接成字符串结果如:"1,2,3"
                                 }
