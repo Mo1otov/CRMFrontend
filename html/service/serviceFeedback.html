@@ -2,31 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>服务分配</title>
+    <title>服务反馈</title>
     <link rel="stylesheet" href="../../layui/css/layui.css">
-
 </head>
 <body>
 <div style="margin: 15px">
-    <form class="layui-form" lay-filter="assignServiceForm">
+    <form class="layui-form" lay-filter="feedbackServiceForm">
         <input name="serId" type="hidden">
-
-        <div class="layui-inline" type="hidden"><label class="layui-form-label"></label>
+        <div class="layui-inline"><label class="layui-form-label">反馈时间</label>
             <div class="layui-input-inline">
-                <input type="hidden" name="serAllocTime" class="layui-input" id="test5" placeholder="yyyy-MM-dd HH:mm:ss">
+                <input type="text" name="serFeedbackTime" class="layui-input" id="test5"
+                       placeholder="yyyy-MM-dd HH:mm:ss">
             </div>
         </div>
-        <div class="layui-form-item" style="margin: 15px"><label class="layui-form-label">处理人</label>
+        <div class="layui-form-item"><label class="layui-form-label">反馈信息</label>
             <div class="layui-input-block">
-                <select id="handler" name="serHandler">
+                <input type="text" name="serCusFeedback" autocomplete="off" placeholder="请输入客户反馈信息"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item"><label class="layui-form-label">客户满意度</label>
+            <div class="layui-input-block">
+                <select name="serCusRate">
                     <option value=""></option>
+                    <option value=1>一星</option>
+                    <option value=2>二星</option>
+                    <option value=3>三星</option>
+                    <option value=4>四星</option>
+                    <option value=5>五星</option>
                 </select>
             </div>
         </div>
-
         <div class="layui-form-item" style="margin: 15px">
             <div class="layui-input-block">
-                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitServiceAssign">立即提交
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitServiceFeedback">立即提交
                 </button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
@@ -35,28 +44,15 @@
 </div>
 <script src="../../layui/layui.js" charset="utf-8"></script>
 <script>
-
     layui.use(['form', 'laydate', 'jquery'], function () {
         let form = layui.form;
         let $ = layui.jquery;
 
         let layDate = layui.laydate;
 
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/sysUser/getSalesList",
-            dataType: "json",
-            success: function (obj) { //后台方法成功执行并返回结果时，会调用这个方法，参数是后台返回的内容
-                for (let i = 0; i < obj.data.length; i++) {
-                    $("#handler").append('<option value="' + obj.data[i].suName + '">' + obj.data[i].suName + '</option>')
-                }
-                form.render();  //解决动态改变的标签没生效的问题
-            }
-        })
-
         //日期时间选择器
         layDate.render({
-            elem: '#test5,#test6,#test7,#test8'
+            elem: '#test5'
             , type: 'datetime'
             , value: new Date()
             , isInitValue: true //是否允许填充初始值，默认为 true
@@ -64,13 +60,13 @@
 
         //给表单填充内容
         //parent是父页面
-        form.val('assignServiceForm', parent.row);
+        form.val('feedbackServiceForm', parent.row);
         //监听提交
-        form.on('submit(submitServiceAssign)', function (data) {
+        form.on('submit(submitServiceFeedback)', function (data) {
             //异步(ajax)提交代码
             $.ajax({
                 type: "post"
-                , url: "http://localhost:8080/services/assignService"
+                , url: "http://localhost:8080/services/feedbackService"
                 , dataType: "json"
                 , headers: {
                     token: localStorage.getItem("token")
