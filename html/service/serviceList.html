@@ -9,10 +9,8 @@
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="edit">修改</button>
         <button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
         <button class="layui-btn layui-btn-sm" lay-event="assign">分配</button>
-        <button class="layui-btn layui-btn-sm" lay-event="delete" style="background-color: red">删除</button>
     </div>
 </script>
 <script src="../../layui/layui.js" charset="utf-8"></script>
@@ -82,35 +80,6 @@
             let checkStatus = table.checkStatus(obj.config.id);
             var data = checkStatus.data;
             switch (obj.event) {
-                case 'edit':
-                    //选中行的数据的数组
-                    if (data.length === 0) {
-                        layer.msg("请选择要修改的行");
-                    } else if (data.length > 1) {
-                        layer.msg("一次只能修改一行数据");
-                    } else {
-                        row = data[0];//把选中的行对象的值赋给row变量
-                        //弹出窗口
-                        layer.open({
-                            type: 2 //此处以iframe举例
-                            ,
-                            title: '修改服务信息'
-                            ,
-                            area: ['390px', '450px']
-                            ,
-                            shade: 0.15//背景透明度，取值范围:0-1
-                            ,
-                            maxmin: true//是否允许窗口最大化和最小化
-                            ,
-                            offset: [ //居中显示
-                                ($(window).height() - 450) / 2
-                                , ($(window).width() - 390) / 2
-                            ]
-                            ,
-                            content: 'serviceUpdate.html'//弹出窗口的内容
-                        });
-                    }
-                    break;
                 case 'add':
                     //弹出窗口
                     layer.open({
@@ -131,36 +100,6 @@
                         ,
                         content: 'serviceAdd.html'//弹出窗口的内容
                     });
-                    break;
-                case 'delete':
-                    if (data.length < 1) {
-                        layer.msg("请选择要删除的行");
-                    } else {
-                        layer.confirm('确认要删除选中的行吗?', function (index) {
-                            //把选中行的cusId保存到数组
-                            var arr = [];
-                            for (let i = 0; i < data.length; i++) {
-                                let serId = data[i].serId;
-                                arr.push(serId);
-                            }
-                            $.ajax({
-                                type: "post"
-                                , url: "http://localhost:8080/services/deleteServices"
-                                , dataType: "json"
-                                , headers: {
-                                    token: localStorage.getItem("token")
-                                }
-                                , data: {
-                                    ids: arr.join(",")//用数组的join方法把数组元素用逗号(',')拼接成字符串结果如:"1,2,3"
-                                }
-                                , success: function (obj) {//后台方法成功执行并返回结果时，会调用这个方法，参数就是后台返回的内容
-                                    //刷新表格
-                                    table.reload('test');
-                                }
-                            })
-                            layer.close(index);
-                        });
-                    }
                     break;
                 case 'assign':
                     //选中行的数据的数组

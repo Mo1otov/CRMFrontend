@@ -32,12 +32,14 @@
         </div>
         <div class="layui-form-item"><label class="layui-form-label">客户编号</label>
             <div class="layui-input-block">
-                <input type="text" name="cusId" autocomplete="off" placeholder="请输入客户编号" class="layui-input">
+                <select name="cusId" id="cusId" lay-verify="required" lay-search="">
+                    <option value="">直接选择或搜索选择</option>
+                </select>
             </div>
         </div>
         <div class="layui-form-item"><label class="layui-form-label">创建人</label>
             <div class="layui-input-block">
-                <input type="text" name="serCreator" autocomplete="off" placeholder="请输入创建人" class="layui-input">
+                <input type="text" name="serCreator" id="serCreator" autocomplete="off" placeholder="请输入创建人" class="layui-input">
             </div>
         </div>
         <div class="layui-inline"><label class="layui-form-label">创建时间</label>
@@ -61,6 +63,24 @@
         let form = layui.form;
         let $ = layui.jquery;
         let layDate = layui.laydate;
+
+
+        $("#serCreator").val(localStorage.getItem("suName"));
+
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/customer/getCustomerList",
+            headers: {
+            token: localStorage.getItem("token")
+        },
+            dataType: "json",
+            success: function (obj) { //后台方法成功执行并返回结果时，会调用这个方法，参数是后台返回的内容
+                for (let i = 0; i < obj.data.length; i++) {
+                    $("#cusId").append('<option value="' + obj.data[i].cusId + '">' + obj.data[i].cusId + '</option>')
+                }
+                form.render();  //解决动态改变的标签没生效的问题
+            }
+        })
 
         //日期时间选择器
         layDate.render({
